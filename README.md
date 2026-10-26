@@ -43,8 +43,8 @@ Será desenvolvido um site para apresentar os dados de maneira visual, organizad
 - Ane Madjarian
 - Bruno Bicalho
 - Camila Menezes
-- Isabel Borges
 - Guilherme zuim
+- Isabel Borges
 
 ## 👩‍🏫 Orientadora
 
