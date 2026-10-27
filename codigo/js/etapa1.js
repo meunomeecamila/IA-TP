@@ -83,18 +83,25 @@ const EXPLICACOES = {
             "Em cada instância, as células com fundo colorido mostram exatamente onde está o ponto de interesse.",
         ],
     },
-    instancias_inconsistencia: {
+        instancias_inconsistencia: {
         titulo: "O que são inconsistências?",
         paragrafos: [
-            "Uma inconsistência acontece quando os valores contradizem o significado do atributo ou outros atributos da mesma linha. Na amostra: su_attempted com valor 2 (deveria ser 0 ou 1), flag SF sem nenhum byte trafegado, login de convidado sem estar logado, origem igual ao destino (land) e duas conexões com atributos idênticos e classes opostas.",
-            "O risco é o modelo aprender padrões que não existem. Esses casos precisam ser investigados e, quando for o caso, corrigidos ou removidos antes do treino.",
+            "Uma inconsistência acontece quando os valores contradizem o significado do atributo ou outros atributos da mesma linha. Na base há cinco tipos principais: categorias escritas de formas diferentes, valores impossíveis, escalas erradas, relações lógicas violadas e valores ausentes.",
+            "Categorias: protocol_type tem 6 valores onde deveria ter 3 (tcp e TCP, udp e UDP, icmp e ICMP), flag tem 19 onde deveria ter 11 (SF e sf, REJ e rej) e service tem espaço no final em 1.292 linhas, o que faz 96 valores serem na verdade 67. Cerca de 4.000 linhas são afetadas, e sem padronização o modelo trata tcp e TCP como categorias diferentes.",
+            "Valores impossíveis: duration negativa em 358 linhas, src_bytes negativo em 189 e total_bytes negativo em 73. Taxas que deveriam estar entre 0 e 1 chegam a 10 (rerror_rate em 683 linhas, dst_host_same_srv_rate em 670, dst_host_diff_srv_rate em 623, dst_host_srv_diff_host_rate em 739 e dst_host_srv_rerror_rate em 714), o que sugere erro de escala de 10 vezes. Os contadores também parecem multiplicados por 1000: count e srv_count passam do limite de 511 (464 e 507 linhas, máximo de 512.000) e dst_host_count passa de 255 (912 linhas, máximo de 256.000).",
+            "Relações lógicas violadas: same_srv_rate somado a diff_srv_rate deveria dar 1, mas difere em 5.823 de 63.297 linhas (9,2%), chegando a 1,5. Em 284 linhas logged_in vale 0, mas num_compromised, num_root, num_file_creations ou root_shell estão acima de 0, e em 6 linhas há login de convidado sem estar logado. Em 1.998 registros com tipo_alerta_soc igual a OK existe tempo de resposta do analista, e 1.005 registros com ALERTA estão sem tempo. Há ainda 1.702 combinações de atributos idênticos com classes opostas.",
+            "Valores ausentes: tempo_resposta_analista_min tem 91,4% de nulos, src_bytes (e as colunas derivadas) 40,0%, dst_host_srv_count 39,9%, dst_host_serror_rate 30,6% e dst_host_same_src_port_rate 28,0%. Os demais atributos com nulos ficam entre 3,5% e 6,8%.",
+            "O risco é o modelo aprender padrões que não existem. Esses casos precisam ser investigados e, quando for o caso, corrigidos (ajustando a escala), convertidos em nulo ou removidos antes do treino.",
         ],
     },
     instancias_redundancia: {
         titulo: "O que são redundâncias?",
         paragrafos: [
-            "Redundância é informação repetida: linhas duplicadas ou atributos que dizem quase a mesma coisa. Na amostra aparecem uma duplicata exata, as quatro taxas de erro de SYN valendo 1,0 ao mesmo tempo e num_root igual a num_compromised (correlação de 0,999 na base).",
-            "Duplicatas podem cair no treino e na validação ao mesmo tempo e inflar o resultado (vazamento de dados). Atributos redundantes aumentam a dimensionalidade sem acrescentar informação e serão tratados na Etapa 2.",
+            "Redundância é informação repetida: linhas duplicadas ou atributos que dizem a mesma coisa. A base tem 11.355 linhas duplicadas exatas (16,3%), que podem cair no treino e na validação ao mesmo tempo e inflar o resultado (vazamento de dados).",
+            "Atributos que são cópias de outros: src_bytes_kb e dst_bytes_kb são src_bytes e dst_bytes divididos por 1024; total_bytes é src_bytes mais dst_bytes; same_srv_pct é same_srv_rate vezes 100; protocolo_cod é a codificação numérica de protocol_type (tcp 0, udp 1, icmp 2). Além disso, total_bytes e as colunas _kb herdam os 40% de nulos de src_bytes, mesmo com dst_bytes completo.",
+            "Atributos sem informação: num_outbound_cmds vale 0 em todas as linhas, e is_host_login (2 linhas com valor 1), num_shells (34), urgent (6) e land (10) são quase constantes. Também há pares muito correlacionados: serror_rate e srv_serror_rate (0,97) e dst_host_serror_rate e dst_host_srv_serror_rate (0,87).",
+            "Três colunas parecem ter sido produzidas depois da detecção do evento e funcionam como um espelho da classe: score_ids_legado (média de 0,71 nas anomalias contra 0,16 nas normais), tipo_alerta_soc (ALERTA em 3.379 das 4.079 anomalias) e tempo_resposta_analista_min. Elas não estariam disponíveis na hora de prever e inflam artificialmente o desempenho (vazamento de alvo).",
+            "Atributos redundantes aumentam a dimensionalidade sem acrescentar informação e serão tratados na Etapa 2.",
         ],
     },
     instancias_desbalanceamento: {
