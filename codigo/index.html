@@ -15,11 +15,11 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#" onclick="showTab('inicio')" class="active">Início</a></li>
-                    <li><a href="#" onclick="showTab('etapa1')">1. Análise Exploratória</a></li>
-                    <li><a href="#" onclick="showTab('etapa2')">2. Pré-processamento</a></li>
-                    <li><a href="#" onclick="showTab('etapa3')">3. Classificadores</a></li>
-                    <li><a href="#" onclick="showTab('etapa4')">4. Competição & Relatório</a></li>
+                    <li><a href="#" onclick="showTab('inicio', event)" class="active" aria-selected="true">Início</a></li>
+                    <li><a href="#" onclick="showTab('etapa1', event)" aria-selected="false">1. Análise Exploratória</a></li>
+                    <li><a href="#" onclick="showTab('etapa2', event)" aria-selected="false">2. Pré-processamento</a></li>
+                    <li><a href="#" onclick="showTab('etapa3', event)" aria-selected="false">3. Classificadores</a></li>
+                    <li><a href="#" onclick="showTab('etapa4', event)" aria-selected="false">4. Competição & Relatório</a></li>
                 </ul>
             </nav>
         </div>
@@ -29,22 +29,24 @@
         <section id="inicio" class="tab-content active">
             <div class="card">
                 <h1>Bem-vindo ao Projeto InteligêncIA</h1>
-                <p>Este espaço web foi desenvolvido para documentar e apresentar de forma estruturada todas as etapas do trabalho prático da disciplina de Inteligência Artificial sobre <strong>Detecção de Intrusão em Redes de Computadores</strong>.</p>
-                <p>Navegue pelas abas acima para acompanhar a evolução metodológica, desde a análise exploratória dos dados até a avaliação final na competição.</p>
+                <p>Este espaço web documenta o Trabalho Prático 01 de Inteligência Artificial: <strong>Interpretação dos Dados</strong> para <strong>Detecção de Intrusão em Redes de Computadores</strong>, com uma base derivada do NSL-KDD.</p>
+                <p>A base de treino tem 69.833 conexões e 50 colunas (49 atributos e a classe). Apenas 5,8% das conexões são anomalias. Navegue pelas abas para acompanhar a análise, os problemas encontrados na base e as decisões de tratamento.</p>
             </div>
 
-        <div class="card" id="equipe" aria-labelledby="titulo-equipe">
-            <h2 id="titulo-equipe">Quem fez este trabalho</h2>
-            <div class="equipe-grade">
+            <div class="card" id="equipe" aria-labelledby="titulo-equipe">
+                <h2 id="titulo-equipe">Quem fez este trabalho</h2>
+                <div class="equipe-grade">
                     <figure class="pessoa">
                         <div class="foto">
-                            <img src="img/ane.jpeg" alt="Foto de Nome do integrante 1"> </div>
+                            <img src="img/ane.jpeg" alt="Foto de Ane Madjarian">
+                        </div>
                         <figcaption>Ane Madjarian</figcaption>
                     </figure>
                     <figure class="pessoa">
                         <div class="foto">
-                            <img src="img/bruno.jpeg" alt="Foto de Nome do integrante 2"> </div>
-                        <figcaption>Bruno Bicalho</figcaption>
+                            <img src="img/bruno.jpeg" alt="Foto de Bruno Mesquita">
+                        </div>
+                        <figcaption>Bruno Mesquita</figcaption>
                     </figure>
                     <figure class="pessoa">
                         <div class="foto">
@@ -54,69 +56,93 @@
                     </figure>
                     <figure class="pessoa">
                         <div class="foto">
-                            <img src="img/guilherme.jpeg" alt="Foto de Nome do integrante 4">
+                            <img src="img/guilherme.jpeg" alt="Foto de Guilherme Zuim">
                         </div>
                         <figcaption>Guilherme Zuim</figcaption>
                     </figure>
                     <figure class="pessoa">
                         <div class="foto">
-                            <img src="img/isabel.jpeg" alt="Foto de Nome do integrante 5">
+                            <img src="img/isabel.jpeg" alt="Foto de Isabel Borges">
                         </div>
                         <figcaption>Isabel Borges</figcaption>
                     </figure>
+                </div>
             </div>
-        </div>
 
-        <div class="card professora" aria-labelledby="titulo-professora">
-            <h2 id="titulo-professora">Professora</h2>
-            <figure class="pessoa">
-                <div class="foto">
-                    <img src="img/cris.jpeg" alt="Foto da professora"> </div>
-                <figcaption>Cristiane Nobre</figcaption>
-            </figure>
-        </div>
+            <div class="card professora" aria-labelledby="titulo-professora">
+                <h2 id="titulo-professora">Professora</h2>
+                <figure class="pessoa">
+                    <div class="foto">
+                        <img src="img/cris.jpeg" alt="Foto da professora Cristiane Nobre">
+                    </div>
+                    <figcaption>Cristiane Nobre</figcaption>
+                </figure>
+            </div>
         </section>
 
         <section id="etapa1" class="tab-content">
             <div class="card">
                 <h1>1. Análise Exploratória dos Dados (EDA)</h1>
-                <p>A primeira etapa consiste na caracterização aprofundada da base de dados <strong>NSL-KDD</strong>, versão corrigida do clássico KDD Cup 99 focada em segurança da informação.</p>
+                <p>A primeira etapa caracteriza a base de treino: 69.833 linhas, 4 colunas de texto, 45 colunas numéricas e a classe. Foram encontrados valores ausentes e problemas de integridade estrutural.</p>
 
-                <h2>Objetivos da Etapa</h2>
+                <h2>Principais achados</h2>
                 <ul class="styled-list">
-                    <li>Compreender a estrutura de 41 atributos descritivos e o atributo de classe.</li>
-                    <li>Identificar o forte desbalanceamento entre tráfego normal e classes de ataques raros (ex.: U2R).</li>
-                    <li>Analisar atributos categóricos fundamentais como <code>protocol_type</code>, <code>service</code> e <code>flag</code>.</li>
-                    <li>Investigar correlações e prevenir riscos críticos de <strong>vazamento de dados (data leakage)</strong> antes da modelagem.</li>
+                    <li>Desbalanceamento forte: 94,2% de conexões normais (65.754) e 5,8% de anomalias (4.079).</li>
+                    <li>Atributos de texto: <code>protocol_type</code>, <code>service</code>, <code>flag</code> e <code>tipo_alerta_soc</code>.</li>
+                    <li>Grafias repetidas inflam as categorias: <code>protocol_type</code> aparece com 6 valores (reais: 3), <code>flag</code> com 19 (reais: 11) e <code>service</code> com 96 (reais: 67).</li>
+                    <li>Valores impossíveis: durações e bytes negativos, taxas acima de 1 e contadores com escala provavelmente multiplicada por 1000.</li>
+                    <li>Atributos redundantes: cópias em outras unidades, colunas constantes e pares muito correlacionados.</li>
+                    <li>Vazamento de dados: <code>tipo_alerta_soc</code>, <code>score_ids_legado</code> e <code>tempo_resposta_analista_min</code> só existem depois da decisão sobre a conexão.</li>
                 </ul>
 
                 <h2>Visualizador da base</h2>
-                <p>Explore 15 instâncias reais da base, com seletores para ver só os atributos categóricos, as inconsistências, as redundâncias e mais.</p>
+                <p>Explore instâncias da base, com seletores para ver só os atributos categóricos, as inconsistências, as redundâncias e mais.</p>
                 <p><a href="etapa1.html"><strong>Abrir o visualizador da base</strong></a></p>
 
                 <h2>Entregável</h2>
-                <p>Notebook Jupyter contendo a EDA completa e o diagnóstico preliminar dos dados.</p>
+                <p>Notebook Jupyter (Google Colab) com a EDA completa e o diagnóstico preliminar dos dados.</p>
             </div>
         </section>
 
         <section id="etapa2" class="tab-content">
             <div class="card">
                 <h1>2. Pré-processamento e Tratamento</h1>
-                <p>Implementação e comparação de técnicas de balanceamento, codificação simbólico-numérica, tratamento de redundâncias e redução de dimensionalidade.</p>
+                <p>Decisões tomadas a partir do diagnóstico da etapa anterior.</p>
+
+                <h2>Padronização e codificação</h2>
+                <ul class="styled-list">
+                    <li>Texto padronizado: remoção de espaços e caixa única (minúscula em <code>protocol_type</code> e <code>service</code>, maiúscula em <code>flag</code>).</li>
+                    <li>Ausentes em <code>service</code> (6,3%) e <code>flag</code> (5,9%) aparecem com a mesma frequência nas duas classes e viram a categoria própria <code>ausente</code>.</li>
+                    <li>One-hot encoding no lugar da numeração, que criaria ordem e distância artificiais entre categorias (por isso <code>protocolo_cod</code> não é usada).</li>
+                    <li>Categorias de <code>service</code> com menos de 0,5% das linhas são agrupadas em <code>outros</code>: <code>service</code> cai de 68 para 13 colunas e os três atributos de 83 para 28. A lista de serviços frequentes é aprendida só no treino.</li>
+                </ul>
+
+                <h2>Remoção de vazamento de dados</h2>
+                <p>São removidas <code>tipo_alerta_soc</code>, <code>score_ids_legado</code> e <code>tempo_resposta_analista_min</code>, que descrevem o que aconteceu depois da detecção e não estariam disponíveis na hora de prever.</p>
+
+                <h2>Tratamento do desbalanceamento</h2>
+                <ul class="styled-list">
+                    <li><strong>Random Under-Sampler:</strong> reduz a classe normal ao tamanho da classe anomaly. É rápido, mas descarta muita informação.</li>
+                    <li><strong>SMOTE:</strong> cria anomalias sintéticas por interpolação, sem perder dados da classe majoritária.</li>
+                    <li>O balanceamento deve ser aplicado só dentro de cada fold da validação cruzada, para não contaminar a validação.</li>
+                </ul>
             </div>
         </section>
 
         <section id="etapa3" class="tab-content">
             <div class="card">
                 <h1>3. Construção e Avaliação dos Classificadores</h1>
-                <p>Treinamento de pelo menos 3 algoritmos diferentes, validação cruzada rigorosa utilizando estritamente o conjunto de treino e comparação via F1-score macro.</p>
+                <p>Primeiro modelo de referência: <strong>Random Forest</strong> com 150 árvores e <code>class_weight='balanced'</code>, dentro de um pipeline que imputa (mediana nos numéricos, <code>missing</code> nos categóricos), padroniza e aplica one-hot. A validação cruzada estratificada de 5 folds usa só o treino e mede o F1-score macro.</p>
+                <p><span class="badge">F1 macro (5-fold): 0,7915 ± 0,0024</span></p>
+                <p>Os demais algoritmos e a comparação com as técnicas de balanceamento seguem como próximos passos.</p>
             </div>
         </section>
 
         <section id="etapa4" class="tab-content">
             <div class="card">
                 <h1>4. Competição e Relatório Final</h1>
-                <p>Avaliação final no conjunto de teste <code>KDDTest+</code>, explicabilidade do melhor modelo e entrega do relatório consolidado de 3 a 5 páginas.</p>
+                <p>O modelo treinado com todo o conjunto seguro gerou o arquivo de submissão, alinhado aos ids do modelo oficial. Previsões: 23.196 conexões normais e 1.137 anomalias.</p>
+                <p>Ficam pendentes a avaliação final no conjunto de teste, a explicabilidade do melhor modelo e o relatório consolidado de 3 a 5 páginas.</p>
             </div>
         </section>
     </main>
@@ -126,27 +152,34 @@
     </footer>
 
     <script>
-        function showTab(tabId) {
+        function showTab(tabId, evt) {
+            if (evt) evt.preventDefault();
+
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
 
             const links = document.querySelectorAll('nav a');
-            links.forEach(link => link.classList.remove('active'));
+            links.forEach(link => {
+                link.classList.remove('active');
+                link.setAttribute('aria-selected', 'false');
+            });
 
             document.getElementById(tabId).classList.add('active');
-            event.target.classList.add('active');
+            
+            const targetLink = evt ? evt.currentTarget : document.querySelector(`nav a[onclick*="'${tabId}'"]`);
+            if (targetLink) {
+                targetLink.classList.add('active');
+                targetLink.setAttribute('aria-selected', 'true');
+            }
         }
 
-        // Permite abrir uma aba direto pelo endereço, por exemplo index.html#etapa2
-        // (usado pelo menu da página etapa1.html)
         window.addEventListener('DOMContentLoaded', () => {
-            const aba = document.getElementById(location.hash.slice(1));
+            const hash = location.hash.slice(1);
+            if (!hash) return;
+            const aba = document.getElementById(hash);
             if (!aba || !aba.classList.contains('tab-content')) return;
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            aba.classList.add('active');
-            const link = document.querySelector(`nav a[onclick*="'${aba.id}'"]`);
-            if (link) link.classList.add('active');
+            
+            showTab(hash, null);
         });
     </script>
 </body>

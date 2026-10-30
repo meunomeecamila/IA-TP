@@ -61,3 +61,25 @@
 .viz-motivo h3 { font-size: 1.05rem; margin: .8rem 0 .5rem; }
 .viz-etiquetas { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin: 0 0 .5rem; padding: 0; list-style: none; }
 .viz-etiquetas li { padding: .1rem .8rem; border-radius: 999px; font-size: .85rem; font-weight: 600; background: var(--cor); color: var(--sobre); }
+
+/* Estilização discreta para valores ausentes/nulos na tabela */
+.viz-nulo {
+    color: #888888;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.cor-ausentes {
+    --cor: #ff7e7e;
+    --sobre: #0e2444;
+}
+
+.cor-ausentes .viz-opcao-nome,
+li.cor-ausentes {
+    color: #0e2444;
+}
+
+.viz-explicacao.cor-ausentes {
+    border-left: 5px solid #e67e22;
+    background-color: #fffdf0;
+}
