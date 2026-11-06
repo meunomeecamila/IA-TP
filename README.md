@@ -34,8 +34,8 @@ Será desenvolvido um site para apresentar os dados de maneira visual, organizad
 | Etapa | Descrição | Status |
 |:---:|:---|:---|
 | 1. Análise exploratória dos dados | Caracterização da base NSL-KDD; identificação das classes, desbalanceamento, atributos categóricos, inconsistências, redundâncias e possíveis problemas de vazamento de dados. | Feito ✅ |
-| 2. Pré-processamento | Implementação e comparação de pelo menos 2 técnicas de balanceamento, 1 técnica de codificação, 1 transformação numérica e 1 técnica de redução de dimensionalidade ou seleção de instâncias. Tratamento dos dados redundantes/inconsistentes. | Em andamento ⏳ |
-| 3. Construção e avaliação dos classificadores | Treinamento de pelo menos 3 algoritmos de classificação; comparação das combinações de pré-processamento e algoritmos; avaliação por validação cruzada e escolha do melhor modelo. | Em breve 🔜 |
+| 2. Pré-processamento | Implementação e comparação de pelo menos 2 técnicas de balanceamento, 1 técnica de codificação, 1 transformação numérica e 1 técnica de redução de dimensionalidade ou seleção de instâncias. Tratamento dos dados redundantes/inconsistentes. | Feito ✅ |
+| 3. Construção e avaliação dos classificadores | Treinamento de pelo menos 3 algoritmos de classificação; comparação das combinações de pré-processamento e algoritmos; avaliação por validação cruzada e escolha do melhor modelo. | Em andamento ⏳ |
 | 4. Competição e apresentação | Avaliação final no KDDTest+, cálculo do F1-macro, ranking das equipes, explicabilidade do melhor modelo e discussão dos resultados. | Em breve 🔜 |
 
 ## 👥 Equipe

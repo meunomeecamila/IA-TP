@@ -5,6 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InteligêncIA - Detecção de Intrusão em Redes</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilos do Dashboard da Etapa 2 (Integrado com Cinzento Mais Claro) */
+        .etapa2-dashboard-wrapper {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        /* Botão do Dashboard com o mesmo estilo do link da Etapa 1 */
+        .etapa2-toggle-btn {
+            background: none !important;
+            border: none !important;
+            padding: 0 !important;
+            color: #2a78d6;
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            transition: opacity 0.2s ease;
+        }
+
+        .etapa2-toggle-btn:hover {
+            opacity: 0.8;
+            color: #2a78d6;
+        }
+
+        .etapa2-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        /* Menu Lateral Interno com Cinzento Mais Claro */
+        .etapa2-sidebar {
+            width: 230px;
+            background-color: #475569;
+            border: 1px solid #64748b;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            height: fit-content;
+        }
+
+        .etapa2-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .etapa2-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .etapa2-nav-btn.active {
+            background: #2a78d6;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .etapa2-content {
+            flex: 1;
+        }
+
+        .etapa2-pane {
+            display: none;
+        }
+
+        .etapa2-pane.active {
+            display: block;
+        }
+
+        .rule-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #92400e;
+            font-size: 0.9rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* Cartões de Métricas com Cinzento Mais Claro e Elevado Contraste */
+        .metric-card {
+            background-color: #475569;
+            border: 1px solid #64748b;
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-label { color: #e2e8f0; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; }
+        .metric-value { font-size: 1.6rem; font-weight: 700; color: #60a5fa; margin-bottom: 2px; }
+        .metric-sub { font-size: 0.8rem; color: #cbd5e1; }
+
+        .table-responsive { overflow-x: auto; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; margin-top: 10px; }
+        .data-table th, .data-table td { padding: 10px 14px; border-bottom: 1px solid #cbd5e1; }
+        .data-table th { background: #f1f5f9; color: #334155; font-weight: 600; }
+
+        .badge-tech {
+            background: rgba(42, 120, 214, 0.15);
+            color: #2a78d6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,9 +153,9 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#" onclick="showTab('inicio', event)" class="active" aria-selected="true">Início</a></li>
+                    <li><a href="#" onclick="showTab('inicio', event)" aria-selected="false">Início</a></li>
                     <li><a href="#" onclick="showTab('etapa1', event)" aria-selected="false">1. Análise Exploratória</a></li>
-                    <li><a href="#" onclick="showTab('etapa2', event)" aria-selected="false">2. Pré-processamento</a></li>
+                    <li><a href="#" onclick="showTab('etapa2', event)" class="active" aria-selected="true">2. Pré-processamento</a></li>
                     <li><a href="#" onclick="showTab('etapa3', event)" aria-selected="false">3. Classificadores</a></li>
                     <li><a href="#" onclick="showTab('etapa4', event)" aria-selected="false">4. Competição & Relatório</a></li>
                 </ul>
@@ -26,10 +164,11 @@
     </header>
 
     <main>
-        <section id="inicio" class="tab-content active">
+        <!-- SEÇÃO: INÍCIO -->
+        <section id="inicio" class="tab-content">
             <div class="card">
                 <h1>Bem-vindo ao Projeto InteligêncIA</h1>
-                <p>Este espaço web documenta o Trabalho Prático 01 de Inteligência Artificial: <strong>Interpretação dos Dados</strong> para <strong>Detecção de Intrusão em Redes de Computadores</strong>, com uma base derivada do NSL-KDD.</p>
+                <p>Este espaço web documenta o Trabalho Prático de Inteligência Artificial: <strong>Interpretação dos Dados</strong> para <strong>Detecção de Intrusão em Redes de Computadores</strong>, com uma base derivada do NSL-KDD.</p>
                 <p>A base de treino tem 69.833 conexões e 50 colunas (49 atributos e a classe). Apenas 5,8% das conexões são anomalias. Navegue pelas abas para acompanhar a análise, os problemas encontrados na base e as decisões de tratamento.</p>
             </div>
 
@@ -37,33 +176,23 @@
                 <h2 id="titulo-equipe">Quem fez este trabalho</h2>
                 <div class="equipe-grade">
                     <figure class="pessoa">
-                        <div class="foto">
-                            <img src="img/ane.jpeg" alt="Foto de Ane Madjarian">
-                        </div>
+                        <div class="foto"><img src="img/ane.jpeg" alt="Foto de Ane Madjarian"></div>
                         <figcaption>Ane Madjarian</figcaption>
                     </figure>
                     <figure class="pessoa">
-                        <div class="foto">
-                            <img src="img/bruno.jpeg" alt="Foto de Bruno Mesquita">
-                        </div>
+                        <div class="foto"><img src="img/bruno.jpeg" alt="Foto de Bruno Bicalho"></div>
                         <figcaption>Bruno Bicalho</figcaption>
                     </figure>
                     <figure class="pessoa">
-                        <div class="foto">
-                            <img src="img/camila.jpg" alt="Foto de Camila Menezes">
-                        </div>
+                        <div class="foto"><img src="img/camila.jpg" alt="Foto de Camila Menezes"></div>
                         <figcaption>Camila Menezes</figcaption>
                     </figure>
                     <figure class="pessoa">
-                        <div class="foto">
-                            <img src="img/guilherme.jpeg" alt="Foto de Guilherme Zuim">
-                        </div>
+                        <div class="foto"><img src="img/guilherme.jpeg" alt="Foto de Guilherme Zuim"></div>
                         <figcaption>Guilherme Zuim</figcaption>
                     </figure>
                     <figure class="pessoa">
-                        <div class="foto">
-                            <img src="img/isabel.jpeg" alt="Foto de Isabel Borges">
-                        </div>
+                        <div class="foto"><img src="img/isabel.jpeg" alt="Foto de Isabel Borges"></div>
                         <figcaption>Isabel Borges</figcaption>
                     </figure>
                 </div>
@@ -72,14 +201,13 @@
             <div class="card professora" aria-labelledby="titulo-professora">
                 <h2 id="titulo-professora">Professora</h2>
                 <figure class="pessoa">
-                    <div class="foto">
-                        <img src="img/cris.jpeg" alt="Foto da professora Cristiane Nobre">
-                    </div>
+                    <div class="foto"><img src="img/cris.jpeg" alt="Foto da professora Cristiane Nobre"></div>
                     <figcaption>Cristiane Nobre</figcaption>
                 </figure>
             </div>
         </section>
 
+        <!-- SEÇÃO: ETAPA 1 -->
         <section id="etapa1" class="tab-content">
             <div class="card">
                 <h1>1. Análise Exploratória dos Dados (EDA)</h1>
@@ -101,40 +229,170 @@
             </div>
         </section>
 
-        <section id="etapa2" class="tab-content">
+        <!-- SEÇÃO: ETAPA 2 -->
+        <section id="etapa2" class="tab-content active">
             <div class="card">
-                <h1>2. Pré-processamento e Tratamento</h1>
-                <p>Decisões tomadas a partir do diagnóstico da etapa anterior.</p>
+                <h1>2. Pré-processamento e Pipeline Oficial</h1>
+                <p>Decisões e transformações aplicadas à base para a preparação dos modelos de aprendizado de máquina.</p>
 
                 <h2>Padronização e codificação</h2>
                 <ul class="styled-list">
                     <li>Texto padronizado: remoção de espaços e caixa única (minúscula em <code>protocol_type</code> e <code>service</code>, maiúscula em <code>flag</code>).</li>
-                    <li>Ausentes em <code>service</code> (6,3%) e <code>flag</code> (5,9%) aparecem com a mesma frequência nas duas classes e viram a categoria própria <code>ausente</code>.</li>
-                    <li>One-hot encoding no lugar da numeração, que criaria ordem e distância artificiais entre categorias (por isso <code>protocolo_cod</code> não é usada).</li>
-                    <li>Categorias de <code>service</code> com menos de 0,5% das linhas são agrupadas em <code>outros</code>: <code>service</code> cai de 68 para 13 colunas e os três atributos de 83 para 28. A lista de serviços frequentes é aprendida só no treino.</li>
+                    <li>Imputação estatística segura fitada apenas no conjunto de treino.</li>
+                    <li>Agrupamento funcional da alta cardinalidade de <code>service</code> (95 categorias reduzidas para 10 grupos funcionais) e aplicação de One-Hot Encoding.</li>
                 </ul>
 
-                <h2>Remoção de vazamento de dados</h2>
-                <p>São removidas <code>tipo_alerta_soc</code>, <code>score_ids_legado</code> e <code>tempo_resposta_analista_min</code>, que descrevem o que aconteceu depois da detecção e não estariam disponíveis na hora de prever.</p>
+                <h2>Remoção de vazamento & inconsistências</h2>
+                <p>Foram removidas as colunas <code>tipo_alerta_soc</code>, <code>score_ids_legado</code> e <code>tempo_resposta_analista_min</code>, além de 8 atributos altamente correlacionados/redundantes e instâncias ruidosas.</p>
 
-                <h2>Tratamento do desbalanceamento</h2>
+                <h2>Escala & Tratamento do Desbalanceamento</h2>
                 <ul class="styled-list">
-                    <li><strong>Random Under-Sampler:</strong> reduz a classe normal ao tamanho da classe anomaly. É rápido, mas descarta muita informação.</li>
-                    <li><strong>SMOTE:</strong> cria anomalias sintéticas por interpolação, sem perder dados da classe majoritária.</li>
-                    <li>O balanceamento deve ser aplicado só dentro de cada fold da validação cruzada, para não contaminar a validação.</li>
+                    <li>Normalização por Log(1+x) e <code>StandardScaler</code> sem descarte de outliers por IQR (para preservar anomalias reais).</li>
+                    <li>Aplicação do <strong>SMOTETomek</strong> apenas no treino (gerando 66.628 linhas finais), mantendo o teste (13.967 linhas) completamente intacto.</li>
                 </ul>
+
+                <h2>Painel Completo da Etapa 2</h2>
+                <p>Acesse a interface detalhada com relatórios de limpeza, imputação, escala, seleção de características via XGBoost e balanceamento SMOTETomek:</p>
+
+                <p><button type="button" onclick="toggleDashboardPanel(event)" class="etapa2-toggle-btn"><strong id="toggle-btn-text">Abrir o dashboard interativo da etapa 2</strong></button></p>
+
+                <!-- PAINEL INTERATIVO (ABRE DEBAIXO DO TEXTO COM CINZENTO MAIS CLARO) -->
+                <div id="etapa2-interactive-panel" class="etapa2-dashboard-wrapper" style="display: none;">
+                    <div class="etapa2-container">
+                        <!-- Navegação Interna da Etapa 2 -->
+                        <div class="etapa2-sidebar">
+                            <button type="button" class="etapa2-nav-btn active" onclick="switchSubTab('sub-overview', event)">📊 Visão Geral</button>
+                            <button type="button" class="etapa2-nav-btn" onclick="switchSubTab('sub-step1', event)">📁 01. Divisão</button>
+                            <button type="button" class="etapa2-nav-btn" onclick="switchSubTab('sub-step2', event)">🧹 02. Limpeza</button>
+                            <button type="button" class="etapa2-nav-btn" onclick="switchSubTab('sub-step3', event)">🏷️ 03. One-Hot</button>
+                            <button type="button" class="etapa2-nav-btn" onclick="switchSubTab('sub-step4', event)">📈 04. Escala</button>
+                            <button type="button" class="etapa2-nav-btn" onclick="switchSubTab('sub-step5', event)">⚡ 05. Balanceamento</button>
+                        </div>
+
+                        <!-- Conteúdo das Sub-Abas -->
+                        <div class="etapa2-content">
+                            <!-- Sub-Aba: Overview -->
+                            <div id="sub-overview" class="etapa2-pane active">
+                                <div class="rule-banner">
+                                    <span>⚠️</span>
+                                    <div><strong>Importante:</strong> Imputação, escala, seleção e SMOTETomek são fitados <em>exclusivamente no treino</em>. O conjunto de teste (13.967 linhas) permanece intacto.</div>
+                                </div>
+
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <span class="metric-label">Linhas Treino Inicial</span>
+                                        <span class="metric-value">55.866</span>
+                                        <span class="metric-sub">5,84% Anomalias</span>
+                                    </div>
+                                    <div class="metric-card">
+                                        <span class="metric-label">Linhas Treino Final</span>
+                                        <span class="metric-value">66.628</span>
+                                        <span class="metric-sub">SMOTETomek (33,3%)</span>
+                                    </div>
+                                    <div class="metric-card">
+                                        <span class="metric-label">Conjunto de Teste</span>
+                                        <span class="metric-value">13.967</span>
+                                        <span class="metric-sub">5,84% Anomalias</span>
+                                    </div>
+                                    <div class="metric-card">
+                                        <span class="metric-label">Atributos Finais</span>
+                                        <span class="metric-value">40</span>
+                                        <span class="metric-sub">Reduzido de 49</span>
+                                    </div>
+                                </div>
+
+                                <div class="card" style="margin-bottom:0;">
+                                    <h3>Evolução da Base de Treino</h3>
+                                    <canvas id="chartPipelineProgression"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Sub-Aba: Step 1 -->
+                            <div id="sub-step1" class="etapa2-pane">
+                                <h3>01. Divisão Estratificada dos Dados</h3>
+                                <p>Divisão reprodutível (80% treino e 20% teste) com <code>random_state=42</code> mantendo a proporção de 5,84% de anomalias.</p>
+                                <ul class="styled-list">
+                                    <li><strong>Treino:</strong> 55.866 instâncias (3.263 anomalias)</li>
+                                    <li><strong>Teste:</strong> 13.967 instâncias (816 anomalias)</li>
+                                </ul>
+                            </div>
+
+                            <!-- Sub-Aba: Step 2 -->
+                            <div id="sub-step2" class="etapa2-pane">
+                                <h3>02. Vazamentos, Redundâncias e Imputação</h3>
+                                <div class="table-responsive">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr><th>Técnica</th><th>Ação</th><th>Motivo</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="badge-tech">Vazamento</span></td>
+                                                <td>Remoção de <code>tipo_alerta_soc</code>, <code>score_ids_legado</code> e <code>tempo_resposta_analista_min</code></td>
+                                                <td>Variáveis geradas pós-decisão. Inflavam o F1-macro de forma irreal.</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge-tech">Redundância</span></td>
+                                                <td>Remoção de 8 atributos duplicados/constantes</td>
+                                                <td>Colunas em KB/Bytes idênticas (r > 0.87) ou variância zero.</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge-tech">Imputação</span></td>
+                                                <td>Mediana (numéricos) fitada só no treino</td>
+                                                <td>Mesmo desempenho do KNN/MICE sendo 5x mais rápido.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Sub-Aba: Step 3 -->
+                            <div id="sub-step3" class="etapa2-pane">
+                                <h3>03. Agrupamento de Cardinalidade & One-Hot Encoding</h3>
+                                <p>A coluna <code>service</code> teve suas 95 categorias agrupadas em 10 grupos funcionais, resultando em 24 colunas One-Hot no final.</p>
+                                <div class="card" style="margin-bottom:0;">
+                                    <h3>Distribuição por Grupo Funcional (Service)</h3>
+                                    <canvas id="chartServiceGroups"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Sub-Aba: Step 4 -->
+                            <div id="sub-step4" class="etapa2-pane">
+                                <h3>04. Normalização & Análise de Outliers</h3>
+                                <p>Atributos numéricos receberam <code>Log(1+x)</code> + <code>StandardScaler</code>. Nenhum outlier foi removido por IQR para evitar a perda de 96,8% das anomalias reais.</p>
+                                <div class="card" style="margin-bottom:0;">
+                                    <h3>Normalização em <code>dst_bytes</code></h3>
+                                    <canvas id="chartNormalization"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Sub-Aba: Step 5 -->
+                            <div id="sub-step5" class="etapa2-pane">
+                                <h3>05. Seleção XGBoost & Balanceamento SMOTETomek</h3>
+                                <p>Selecionados os 40 atributos mais importantes via XGBoost Feature Importance e aplicado SMOTETomek no treino.</p>
+                                <div class="card" style="margin-bottom:0;">
+                                    <h3>Top 10 Atributos (XGBoost)</h3>
+                                    <canvas id="chartFeatureImportance"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
+        <!-- SEÇÃO: ETAPA 3 -->
         <section id="etapa3" class="tab-content">
             <div class="card">
                 <h1>3. Construção e Avaliação dos Classificadores</h1>
-                <p>Primeiro modelo de referência: <strong>Random Forest</strong> com 150 árvores e <code>class_weight='balanced'</code>, dentro de um pipeline que imputa (mediana nos numéricos, <code>missing</code> nos categóricos), padroniza e aplica one-hot. A validação cruzada estratificada de 5 folds usa só o treino e mede o F1-score macro.</p>
+                <p>Primeiro modelo de referência: <strong>Random Forest</strong> com 150 árvores e <code>class_weight='balanced'</code>, dentro de um pipeline que imputa, padroniza e aplica one-hot. A validação cruzada estratificada de 5 folds usa só o treino e mede o F1-score macro.</p>
                 <p><span class="badge">F1 macro (5-fold): 0,7915 ± 0,0024</span></p>
                 <p>Os demais algoritmos e a comparação com as técnicas de balanceamento seguem como próximos passos.</p>
             </div>
         </section>
 
+        <!-- SEÇÃO: ETAPA 4 -->
         <section id="etapa4" class="tab-content">
             <div class="card">
                 <h1>4. Competição e Relatório Final</h1>
@@ -148,35 +406,130 @@
         <p>&copy; 2026 InteligêncIA - Competição de Detecção de Intrusão em Redes.</p>
     </footer>
 
+    <!-- LÓGICA DE NAVEGAÇÃO E GRÁFICOS -->
     <script>
+        let chartsInitialized = false;
+
+        // Alternar visualização do painel do Dashboard
+        function toggleDashboardPanel(evt) {
+            if (evt) evt.preventDefault();
+            const panel = document.getElementById('etapa2-interactive-panel');
+            const btnText = document.getElementById('toggle-btn-text');
+            
+            if (panel.style.display === 'none' || panel.style.display === '') {
+                panel.style.display = 'block';
+                btnText.textContent = 'Ocultar o dashboard interativo da etapa 2';
+                if (!chartsInitialized) {
+                    initEtapa2Charts();
+                    chartsInitialized = true;
+                }
+            } else {
+                panel.style.display = 'none';
+                btnText.textContent = 'Abrir o dashboard interativo da etapa 2';
+            }
+        }
+
+        // Navegação entre Abas Principais
         function showTab(tabId, evt) {
             if (evt) evt.preventDefault();
 
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-
-            const links = document.querySelectorAll('nav a');
-            links.forEach(link => {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('nav ul li a').forEach(link => {
                 link.classList.remove('active');
                 link.setAttribute('aria-selected', 'false');
             });
 
-            document.getElementById(tabId).classList.add('active');
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) targetContent.classList.add('active');
             
-            const targetLink = evt ? evt.currentTarget : document.querySelector(`nav a[onclick*="'${tabId}'"]`);
+            const targetLink = evt ? evt.currentTarget : document.querySelector(`nav ul li a[onclick*="'${tabId}'"]`);
             if (targetLink) {
                 targetLink.classList.add('active');
                 targetLink.setAttribute('aria-selected', 'true');
             }
         }
 
+        // Navegação Interna da Etapa 2 (Sub-abas)
+        function switchSubTab(subTabId, evt) {
+            if (evt) evt.preventDefault();
+
+            document.querySelectorAll('.etapa2-pane').forEach(pane => pane.classList.remove('active'));
+            document.querySelectorAll('.etapa2-nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetPane = document.getElementById(subTabId);
+            if (targetPane) targetPane.classList.add('active');
+
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+            }
+        }
+
+        // Gráficos Chart.js
+        function initEtapa2Charts() {
+            Chart.defaults.color = '#64748b';
+            Chart.defaults.borderColor = '#cbd5e1';
+
+            // Gráfico 1: Evolução da Base
+            const ctxPipeline = document.getElementById('chartPipelineProgression');
+            if (ctxPipeline) {
+                new Chart(ctxPipeline, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Treino Inicial', 'Sem Duplicatas', 'Sem Conflitos', 'Sem Ruído', 'Final (SMOTETomek)'],
+                        datasets: [
+                            { label: 'Normais', data: [52603, 45344, 44545, 44423, 44420], backgroundColor: '#2a78d6' },
+                            { label: 'Anomalias', data: [3263, 3263, 1788, 1551, 22208], backgroundColor: '#eb6834' }
+                        ]
+                    },
+                    options: { responsive: true, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+                });
+            }
+
+            // Gráfico 2: Service Groups
+            const ctxService = document.getElementById('chartServiceGroups');
+            if (ctxService) {
+                new Chart(ctxService, {
+                    type: 'bar',
+                    data: {
+                        labels: ['private_other', 'infrastructure', 'remote_access', 'netbios', 'auth_directory', 'icmp', 'file_transfer', 'email', 'dns_time', 'web'],
+                        datasets: [{ label: 'Instâncias', data: [120, 240, 480, 850, 1100, 1450, 2100, 3200, 5800, 31093], backgroundColor: '#2a78d6' }]
+                    },
+                    options: { responsive: true, indexAxis: 'y' }
+                });
+            }
+
+            // Gráfico 3: Normalização
+            const ctxNorm = document.getElementById('chartNormalization');
+            if (ctxNorm) {
+                new Chart(ctxNorm, {
+                    type: 'line',
+                    data: {
+                        labels: ['0', '1K', '10K', '100K', '1M', '10M'],
+                        datasets: [
+                            { label: 'Original', data: [45000, 800, 200, 50, 10, 2], borderColor: '#eb6834', fill: true },
+                            { label: 'Log + Standardized', data: [1000, 8000, 15000, 18000, 3000, 300], borderColor: '#2a78d6', fill: true }
+                        ]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // Gráfico 4: Feature Importance
+            const ctxImportance = document.getElementById('chartFeatureImportance');
+            if (ctxImportance) {
+                new Chart(ctxImportance, {
+                    type: 'bar',
+                    data: {
+                        labels: ['src_bytes', 'dst_bytes', 'count', 'srv_count', 'same_srv_rate', 'diff_srv_rate', 'dst_host_count', 'dst_host_srv_count', 'service_web', 'flag_SF'],
+                        datasets: [{ label: 'Importância XGBoost', data: [0.18, 0.14, 0.11, 0.09, 0.07, 0.06, 0.05, 0.04, 0.04, 0.03], backgroundColor: '#1baf7a' }]
+                    },
+                    options: { responsive: true, indexAxis: 'y' }
+                });
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
-            const hash = location.hash.slice(1);
-            if (!hash) return;
-            const aba = document.getElementById(hash);
-            if (!aba || !aba.classList.contains('tab-content')) return;
-            
-            showTab(hash, null);
+            showTab('etapa2', null);
         });
     </script>
 </body>
