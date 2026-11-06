@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Estilos do Dashboard da Etapa 2 (Integrado com Cinzento Mais Claro) */
+        /* Estilos do Dashboard da Etapa 2 */
         .etapa2-dashboard-wrapper {
             margin-top: 24px;
             padding-top: 20px;
             border-top: 1px dashed #cbd5e1;
         }
 
-        /* Botão do Dashboard com o mesmo estilo do link da Etapa 1 */
+        /* Botão do Dashboard estilizado igual aos links do projeto */
         .etapa2-toggle-btn {
             background: none !important;
             border: none !important;
@@ -42,7 +42,7 @@
             margin-top: 15px;
         }
 
-        /* Menu Lateral Interno com Cinzento Mais Claro */
+        /* Menu Lateral Interno da Etapa 2 */
         .etapa2-sidebar {
             width: 230px;
             background-color: #475569;
@@ -115,7 +115,6 @@
             margin-bottom: 20px;
         }
 
-        /* Cartões de Métricas com Cinzento Mais Claro e Elevado Contraste */
         .metric-card {
             background-color: #475569;
             border: 1px solid #64748b;
@@ -153,9 +152,9 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#" onclick="showTab('inicio', event)" aria-selected="false">Início</a></li>
+                    <li><a href="#" onclick="showTab('inicio', event)" class="active" aria-selected="true">Início</a></li>
                     <li><a href="#" onclick="showTab('etapa1', event)" aria-selected="false">1. Análise Exploratória</a></li>
-                    <li><a href="#" onclick="showTab('etapa2', event)" class="active" aria-selected="true">2. Pré-processamento</a></li>
+                    <li><a href="#" onclick="showTab('etapa2', event)" aria-selected="false">2. Pré-processamento</a></li>
                     <li><a href="#" onclick="showTab('etapa3', event)" aria-selected="false">3. Classificadores</a></li>
                     <li><a href="#" onclick="showTab('etapa4', event)" aria-selected="false">4. Competição & Relatório</a></li>
                 </ul>
@@ -164,8 +163,8 @@
     </header>
 
     <main>
-        <!-- SEÇÃO: INÍCIO -->
-        <section id="inicio" class="tab-content">
+        <!-- SEÇÃO: INÍCIO (ATIVA POR PADRÃO) -->
+        <section id="inicio" class="tab-content active">
             <div class="card">
                 <h1>Bem-vindo ao Projeto InteligêncIA</h1>
                 <p>Este espaço web documenta o Trabalho Prático de Inteligência Artificial: <strong>Interpretação dos Dados</strong> para <strong>Detecção de Intrusão em Redes de Computadores</strong>, com uma base derivada do NSL-KDD.</p>
@@ -230,7 +229,7 @@
         </section>
 
         <!-- SEÇÃO: ETAPA 2 -->
-        <section id="etapa2" class="tab-content active">
+        <section id="etapa2" class="tab-content">
             <div class="card">
                 <h1>2. Pré-processamento e Pipeline Oficial</h1>
                 <p>Decisões e transformações aplicadas à base para a preparação dos modelos de aprendizado de máquina.</p>
@@ -256,10 +255,10 @@
 
                 <p><button type="button" onclick="toggleDashboardPanel(event)" class="etapa2-toggle-btn"><strong id="toggle-btn-text">Abrir o dashboard interativo da etapa 2</strong></button></p>
 
-                <!-- PAINEL INTERATIVO (ABRE DEBAIXO DO TEXTO COM CINZENTO MAIS CLARO) -->
+                <!-- PAINEL INTERATIVO DA ETAPA 2 -->
                 <div id="etapa2-interactive-panel" class="etapa2-dashboard-wrapper" style="display: none;">
                     <div class="etapa2-container">
-                        <!-- Navegação Interna da Etapa 2 -->
+                        <!-- Navegação Interna -->
                         <div class="etapa2-sidebar">
                             <button type="button" class="etapa2-nav-btn active" onclick="switchSubTab('sub-overview', event)">📊 Visão Geral</button>
                             <button type="button" class="etapa2-nav-btn" onclick="switchSubTab('sub-step1', event)">📁 01. Divisão</button>
@@ -275,7 +274,7 @@
                             <div id="sub-overview" class="etapa2-pane active">
                                 <div class="rule-banner">
                                     <span>⚠️</span>
-                                    <div><strong>Importante:</strong> Imputação, escala, seleção e SMOTETomek são fitados <em>exclusivamente no treino</em>. O conjunto de teste (13.967 linhas) permanece intacto.</div>
+                                    <div><strong>Regra de Ouro:</strong> Imputação, escala, seleção e SMOTETomek são fitados <em>exclusivamente no treino</em>. O conjunto de teste (13.967 linhas) permanece intacto.</div>
                                 </div>
 
                                 <div class="metrics-grid">
@@ -410,7 +409,7 @@
     <script>
         let chartsInitialized = false;
 
-        // Alternar visualização do painel do Dashboard
+        // Alternar visualização do painel do Dashboard da Etapa 2
         function toggleDashboardPanel(evt) {
             if (evt) evt.preventDefault();
             const panel = document.getElementById('etapa2-interactive-panel');
@@ -528,8 +527,18 @@
             }
         }
 
+        // Garante que abra na aba "Início" ao iniciar via Live Server
         window.addEventListener('DOMContentLoaded', () => {
-            showTab('etapa2', null);
+            const hash = location.hash.slice(1);
+            if (hash) {
+                const aba = document.getElementById(hash);
+                if (aba && aba.classList.contains('tab-content')) {
+                    showTab(hash, null);
+                    return;
+                }
+            }
+            // Padrão: Início
+            showTab('inicio', null);
         });
     </script>
 </body>
